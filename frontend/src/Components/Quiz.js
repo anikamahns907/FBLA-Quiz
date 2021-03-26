@@ -12,23 +12,60 @@ class Quiz extends React.Component {
         { question: "" },
         { question: "" },
       ],
+      currentAnswers: [
+        {
+          id: "",
+          userAnswer: "Q: NOT ANSWERED",
+          userTfAnswer: "T/F: NOT ANSWERED",
+        },
+        {
+          id: "",
+          userAnswer: "Q: NOT ANSWERED",
+          userTfAnswer: "T/F: NOT ANSWERED",
+        },
+        {
+          id: "",
+          userAnswer: "Q: NOT ANSWERED",
+          userTfAnswer: "T/F: NOT ANSWERED",
+        },
+        {
+          id: "",
+          userAnswer: "Q: NOT ANSWERED",
+          userTfAnswer: "T/F: NOT ANSWERED",
+        },
+        {
+          id: "",
+          userAnswer: "Q: NOT ANSWERED",
+          userTfAnswer: "T/F: NOT ANSWERED",
+        },
+      ],
     };
   }
 
-  handleChangeOfDropDown(id, event) {
-    this.setState({ id: id, userAnswer: event.target.value });
+  handleChangeOfDropDown(id, event, qNum) {
+    var temp = this.state.currentAnswers;
+    temp[qNum].id = id;
+    temp[qNum].userAnswer = event.target.value;
+    this.setState({ currentAnswers: temp });
   }
 
-  handleWrittenResponse(id, event) {
-    this.setState({ id: id, userAnswer: event.target.value });
+  handleWrittenResponse(id, event, qNum) {
+    var temp = this.state.currentAnswers;
+    temp[qNum].id = id;
+    temp[qNum].userAnswer = event.target.value;
+    this.setState({ currentAnswers: temp });
   }
 
   //function that uses if/else if statements to determine what state (either userTfAnswer or userAnswer) to pass the user input
-  handleStates(id, usersAnswer) {
+  handleStates(id, usersAnswer, qNum) {
+    var temp = this.state.currentAnswers;
+    temp[qNum].id = id;
     if (usersAnswer === "FALSE" || usersAnswer === "TRUE") {
-      this.setState({ id: id, userTfAnswer: usersAnswer });
+      temp[qNum].userTfAnswer = usersAnswer;
+      this.setState({ currentAnswers: temp });
     } else {
-      this.setState({ id: id, userAnswer: usersAnswer });
+      temp[qNum].userAnswer = usersAnswer;
+      this.setState({ currentAnswers: temp });
     }
   }
 
@@ -50,15 +87,15 @@ class Quiz extends React.Component {
       });
   }
 
-  displayQuestion(type, data) {
+  displayQuestion(type, data, qNum) {
     if (type === "tf") {
       return (
         <div>
           <h4>{data.tfversion}</h4>
-          <button onClick={() => this.handleStates(data._id, "TRUE")}>
+          <button onClick={() => this.handleStates(data._id, "TRUE", qNum)}>
             true
           </button>
-          <button onClick={() => this.handleStates(data._id, "FALSE")}>
+          <button onClick={() => this.handleStates(data._id, "FALSE", qNum)}>
             false
           </button>
         </div>
@@ -71,7 +108,7 @@ class Quiz extends React.Component {
             <input
               type="radio"
               name="answerChoice"
-              onClick={() => this.handleStates(data._id, data.c1)}
+              onClick={() => this.handleStates(data._id, data.c1, qNum)}
               id={data.c1}
               value={data.c1}
             />
@@ -80,7 +117,7 @@ class Quiz extends React.Component {
             <input
               type="radio"
               name="answerChoice"
-              onClick={() => this.handleStates(data._id, data.c2)}
+              onClick={() => this.handleStates(data._id, data.c2, qNum)}
               id={data.c2}
               value={data.c2}
             />
@@ -89,7 +126,7 @@ class Quiz extends React.Component {
             <input
               type="radio"
               name="answerChoice"
-              onClick={() => this.handleStates(data._id, data.c3)}
+              onClick={() => this.handleStates(data._id, data.c3, qNum)}
               id={data.c3}
               value={data.c3}
             />
@@ -98,7 +135,7 @@ class Quiz extends React.Component {
             <input
               type="radio"
               name="answerChoice"
-              onClick={() => this.handleStates(data._id, data.c4)}
+              onClick={() => this.handleStates(data._id, data.c4, qNum)}
               id={data.c4}
               value={data.c4}
             />
@@ -111,7 +148,9 @@ class Quiz extends React.Component {
         <div>
           <h4>{data.question}</h4>
           <select
-            onChange={(event) => this.handleChangeOfDropDown(data._id, event)}
+            onChange={(event) =>
+              this.handleChangeOfDropDown(data._id, event, qNum)
+            }
           >
             <option value={data.c1}>{data.c1}</option>
             <option value={data.c2}>{data.c2}</option>
@@ -131,7 +170,7 @@ class Quiz extends React.Component {
                 type="text"
                 name="name"
                 onChange={(event) =>
-                  this.handleWrittenResponse(data._id, event)
+                  this.handleWrittenResponse(data._id, event, qNum)
                 }
               />
             </label>
@@ -147,11 +186,11 @@ class Quiz extends React.Component {
     }
   }
   render() {
-    var theQuestion1 = this.displayQuestion("tf", this.state.questions[0]);
-    var theQuestion2 = this.displayQuestion("tf", this.state.questions[1]);
-    var theQuestion3 = this.displayQuestion("mc", this.state.questions[2]);
-    var theQuestion4 = this.displayQuestion("mc", this.state.questions[3]);
-    var theQuestion5 = this.displayQuestion("wr", this.state.questions[4]);
+    var theQuestion1 = this.displayQuestion("tf", this.state.questions[0], 0);
+    var theQuestion2 = this.displayQuestion("tf", this.state.questions[1], 1);
+    var theQuestion3 = this.displayQuestion("mc", this.state.questions[2], 2);
+    var theQuestion4 = this.displayQuestion("mc", this.state.questions[3], 3);
+    var theQuestion5 = this.displayQuestion("wr", this.state.questions[4], 4);
 
     return (
       <div className="content">
@@ -175,20 +214,21 @@ class Quiz extends React.Component {
           <br></br>
           <hr></hr>
           {theQuestion5}
-          <p> {this.state.questions[0].userTfAnswer} </p>
-          <p>{this.state.userAnswer}</p>
+          <p> {this.state.currentAnswers[0].userTfAnswer} </p>
+          <p> {this.state.currentAnswers[1].userTfAnswer} </p>
+          <p> {this.state.currentAnswers[2].userAnswer} </p>
+          <p> {this.state.currentAnswers[3].userAnswer} </p>
+          <p> {this.state.currentAnswers[4].userAnswer} </p>
           <br></br>
           <hr></hr>
         </div>
 
-        {/* <Question questionData={this.state.questions[0]} typeOfQuestion="tf" />
-        <Question questionData={this.state.questions[1]} typeOfQuestion="mc" />
-        <Question questionData={this.state.questions[2]} typeOfQuestion="mc" />
-        <Question questionData={this.state.questions[3]} typeOfQuestion="dd" />
-        <Question questionData={this.state.questions[4]} typeOfQuestion="wr" /> */}
-
         <div>
-          <button className="submitButton" type="submit">
+          <button
+            onClick={() => this.getAnswers()}
+            className="submitButton"
+            type="submit"
+          >
             Submit
           </button>
         </div>
