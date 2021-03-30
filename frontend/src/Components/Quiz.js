@@ -39,6 +39,14 @@ class Quiz extends React.Component {
           userTfAnswer: "T/F: NOT ANSWERED",
         },
       ],
+      answers: [],
+      checker: [
+        { check: "" },
+        { check: "" },
+        { check: "" },
+        { check: "" },
+        { check: "" },
+      ],
     };
   }
 
@@ -86,6 +94,88 @@ class Quiz extends React.Component {
         console.log(error);
       });
   }
+  //collect userAnswer or userTfAnswer and quetion id
+  getAnswers() {
+    axios
+      .post(
+        "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz?id1=" +
+          this.state.currentAnswers[0].id +
+          "&id2=" +
+          this.state.currentAnswers[1].id +
+          "&id3=" +
+          this.state.currentAnswers[2].id +
+          "&id4=" +
+          this.state.currentAnswers[3].id +
+          "&id5=" +
+          this.state.currentAnswers[4].id
+      )
+      .then((response) => {
+        //// handle success
+        console.log(response.data);
+        this.setState({ answers: response.data });
+      })
+      .then(() => {
+        this.gradeQuestions();
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
+  gradeQuestions() {
+    var temp = this.state.checker;
+    var i;
+    for (i = 0; i < 5; i++) {
+      if (this.state.currentAnswers[i].userAnswer !== "Q: NOT ANSWERED") {
+        if (
+          this.state.answers[i].answer ===
+          this.state.currentAnswers[i].userAnswer
+        ) {
+          temp[i].check = "correct";
+        } else {
+          temp[i].check = "incorrect";
+        }
+      }
+      if (this.state.currentAnswers[i].userTfAnswer !== "T/F: NOT ANSWERED") {
+        if (
+          this.state.answers[i].tfanswer ===
+          this.state.currentAnswers[i].userTfAnswer
+        ) {
+          temp[i].check = "correct";
+        } else {
+          temp[i].check = "incorrect";
+        }
+      }
+    }
+    this.setState({ checker: temp });
+
+    var n;
+    var correct = 0;
+    for (n = 0; n < 5; n++) {
+      if (this.state.checker[n].check === "correct") {
+        correct++;
+      }
+    }
+
+    var percent = (correct / 5) * 100;
+    var score = "your score: " + percent.toString() + "%";
+    document.getElementById("score").innerHTML = score;
+  }
+  // else
+  // if (this.state.currentAnswers.userAnswer === "Q: NOT ANSWERED") {
+  //   if (
+  //     this.state.currentAnswers.userTfAnswer === this.state.answers.tfanswer
+  //   ) {
+  //     this.setState({ check: "correct" });
+  //   } else {
+  //     this.setState({ check: "incorrect" });
+  //   }
+  // } else {
+  //   if (this.state.currentAnswers.userAnswer === this.state.answers.answer) {
+  //     this.setState({ check: "correct" });
+  //   } else {
+  //     this.setState({ check: "incorrect" });
+  //   }
 
   displayQuestion(type, data, qNum) {
     if (type === "tf") {
@@ -189,7 +279,7 @@ class Quiz extends React.Component {
     var theQuestion1 = this.displayQuestion("tf", this.state.questions[0], 0);
     var theQuestion2 = this.displayQuestion("tf", this.state.questions[1], 1);
     var theQuestion3 = this.displayQuestion("mc", this.state.questions[2], 2);
-    var theQuestion4 = this.displayQuestion("mc", this.state.questions[3], 3);
+    var theQuestion4 = this.displayQuestion("dd", this.state.questions[3], 3);
     var theQuestion5 = this.displayQuestion("wr", this.state.questions[4], 4);
 
     return (
@@ -221,6 +311,12 @@ class Quiz extends React.Component {
           <p> {this.state.currentAnswers[4].userAnswer} </p>
           <br></br>
           <hr></hr>
+          <p>{this.state.checker[0].check}</p>
+          <p>{this.state.checker[1].check}</p>
+          <p>{this.state.checker[2].check}</p>
+          <p>{this.state.checker[3].check}</p>
+          <p>{this.state.checker[4].check}</p>
+          <p id="score"></p>
         </div>
 
         <div>
