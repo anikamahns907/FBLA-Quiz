@@ -92,3 +92,45 @@ UNTIL SUNDAY
   //this.state.questions[3].tfquestion: null (crash bc tfquestion not in dictionary)
   //this.state.questions[3].tfversion:  "The High School Division of FBLA-PBL obtains around 1,570+ chapters?"
   //this.state.questions[3].tfversionn: null (crash bc tfversionn not in dictionary)
+
+
+
+  after a post request is made, the result is:
+  [
+    {
+        "_id": "6046e8834c79880b6cf56836",
+        "answer": "Group, Team, and Chapter",
+        "tfanswer": "TRUE"
+    },
+    {
+        "_id": "6046e8834c79880b6cf56836",
+        "answer": "Group, Team, and Chapter",
+        "tfanswer": "TRUE"
+    },
+    {
+        "_id": "6046e8834c79880b6cf56836",
+        "answer": "Group, Team, and Chapter",
+        "tfanswer": "TRUE"
+    },
+    {
+        "_id": "6046e8834c79880b6cf56836",
+        "answer": "Group, Team, and Chapter",
+        "tfanswer": "TRUE"
+    },
+    {
+        "_id": "6046e8834c79880b6cf56836",
+        "answer": "Group, Team, and Chapter",
+        "tfanswer": "TRUE"
+    }
+]
+
+
+Priorities:
+-Popup
+-Timer
+-chat box
+-confetti
+-reports (plus print results)
+-database structure (different topics)
+-showing correct answer
+(front page intro)

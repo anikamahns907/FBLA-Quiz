@@ -17,7 +17,6 @@ class App extends React.Component {
             <div className="sideBarButtons">
               <Link to="/">Home</Link>
             </div>
-
             <br></br>
             <div className="sideBarButtons">
               <Link to="/quiz">Quiz</Link>

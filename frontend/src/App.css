@@ -48,11 +48,14 @@
   margin: 4px 2px;
   cursor: pointer;
 }
+a {
+  text-decoration: none;
+}
 
 .questions {
-  margin: auto;
+  margin: 0 auto;
+  height: 100%;
   width: 50%;
-  padding: 10px;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
@@ -163,4 +166,118 @@
   margin-left: 68%;
   margin-right: 100px;
   cursor: pointer;
+}
+
+.popUp {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.whitePopup {
+  background: white;
+  border-color: red;
+  border-style: outset;
+  border-width: 20px;
+  width: 40%;
+  height: 40%;
+  display: flex;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.closeButton {
+  margin-top: 10px;
+}
+.popupText {
+  width: 75%;
+  height: 30px;
+  margin-bottom: 25%;
+  text-align: center;
+}
+
+.timer {
+  width: 200px;
+  height: 35px;
+  text-align: center;
+  margin-top: 0%;
+  align-items: center;
+}
+
+.reports {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.reportPage {
+  margin-left: 150px;
+  position: absolute;
+  height: 100%;
+  width: 90%;
+}
+
+.congratsPopupBox {
+  background: white;
+  border-color: red;
+  border-style: outset;
+  border-width: 20px;
+  width: 70%;
+  height: 70%;
+  display: flex;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.reportPopup {
+  background: white;
+  border-color: red;
+  border-style: outset;
+  border-width: 20px;
+  width: 70%;
+  height: 70%;
+  display: flex;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.screenPopUp {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+.questionReport {
+  height: 100%;
+  width: 50%;
+  margin-right: 40%;
+  margin-top: 1%;
+}
+.timerOnReport {
+  width: 200px;
+  height: 20px;
+  text-align: center;
+  margin-top: 0%;
+  align-items: center;
+}
+.timerAndScore {
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  align-items: center;
+  margin-right: 7%;
 }

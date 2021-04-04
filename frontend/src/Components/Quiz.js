@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import * as moment from "moment";
+import Confetti from "react-confetti";
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -39,7 +41,7 @@ class Quiz extends React.Component {
           userTfAnswer: "T/F: NOT ANSWERED",
         },
       ],
-      answers: [],
+      answers: ["", "", "", "", ""],
       checker: [
         { check: "" },
         { check: "" },
@@ -47,6 +49,15 @@ class Quiz extends React.Component {
         { check: "" },
         { check: "" },
       ],
+      popupOpacity: 1,
+      popupVisibility: "visible",
+      isStarted: false,
+      time: 0,
+      congratsPopupVisibility: "hidden",
+      congratsPopupOpacity: 0,
+      reportPopupVisibility: "hidden",
+      reportPopupOpacity: 0,
+      checkSymbol: "",
     };
   }
 
@@ -87,15 +98,45 @@ class Quiz extends React.Component {
       .then((response) => {
         //// handle success
         console.log(response.data);
-        this.setState({ questions: response.data });
+        this.setState({
+          questions: response.data,
+          popupOpacity: 0,
+          popupVisibility: "hidden",
+        });
+      })
+      .then(() => {
+        this.setState({
+          isStarted: true,
+          time: this.state.time,
+        });
+
+        this.timer = setInterval(
+          () =>
+            this.setState({
+              time: this.state.time + 1,
+            }),
+          1000
+        );
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
+
   //collect userAnswer or userTfAnswer and quetion id
   getAnswers() {
+    var i;
+    for (i = 0; i < 5; i++) {
+      if (
+        this.state.currentAnswers[i].userAnswer === "Q: NOT ANSWERED" &&
+        this.state.currentAnswers[i].userTfAnswer === "T/F: NOT ANSWERED"
+      ) {
+        alert("Please fill out all fields.");
+        return -1;
+      }
+    }
+
     axios
       .post(
         "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz?id1=" +
@@ -112,16 +153,28 @@ class Quiz extends React.Component {
       .then((response) => {
         //// handle success
         console.log(response.data);
-        this.setState({ answers: response.data });
+        this.setState({
+          answers: response.data,
+          congratsPopupVisibility: "visible",
+          congratsPopupOpacity: 1,
+        });
       })
       .then(() => {
         this.gradeQuestions();
       })
+      .then(() => {
+        this.setState({
+          isStarted: false,
+        });
+        clearInterval(this.timer);
+      })
+
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
+
   gradeQuestions() {
     var temp = this.state.checker;
     var i;
@@ -131,9 +184,9 @@ class Quiz extends React.Component {
           this.state.answers[i].answer ===
           this.state.currentAnswers[i].userAnswer
         ) {
-          temp[i].check = "correct";
+          temp[i].check = "✔️";
         } else {
-          temp[i].check = "incorrect";
+          temp[i].check = "	❌";
         }
       }
       if (this.state.currentAnswers[i].userTfAnswer !== "T/F: NOT ANSWERED") {
@@ -141,18 +194,17 @@ class Quiz extends React.Component {
           this.state.answers[i].tfanswer ===
           this.state.currentAnswers[i].userTfAnswer
         ) {
-          temp[i].check = "correct";
+          temp[i].check = " ✔️";
         } else {
-          temp[i].check = "incorrect";
+          temp[i].check = "	❌";
         }
       }
     }
     this.setState({ checker: temp });
-
     var n;
     var correct = 0;
     for (n = 0; n < 5; n++) {
-      if (this.state.checker[n].check === "correct") {
+      if (this.state.checker[n].check === "✔️") {
         correct++;
       }
     }
@@ -275,32 +327,166 @@ class Quiz extends React.Component {
       );
     }
   }
+
+  // handlePopup() {
+  //   this.setState({
+  //     popupOpacity: 0,
+  //     popupVisibility: "hidden",
+  //   });
+  // }
+
   render() {
     var theQuestion1 = this.displayQuestion("tf", this.state.questions[0], 0);
     var theQuestion2 = this.displayQuestion("tf", this.state.questions[1], 1);
     var theQuestion3 = this.displayQuestion("mc", this.state.questions[2], 2);
     var theQuestion4 = this.displayQuestion("dd", this.state.questions[3], 3);
     var theQuestion5 = this.displayQuestion("wr", this.state.questions[4], 4);
-
+    const { width, height } = 59;
     return (
       <div className="content">
-        <button className="button" onClick={() => this.getQuestion()}>
+        <div
+          style={{
+            visibility: this.state.popupVisibility,
+            opacity: this.state.popupOpacity,
+            transition: "all 1s",
+          }}
+          className="popUp"
+        >
+          <div className="whitePopup">
+            {/* <button className="button" onClick={() => this.getQuestion()}>
           Start when you are ready!
-        </button>
+        </button> */}
+            <div className="popupText">
+              <h4>
+                Welcome to FBLA 5 question Quiz! There will be no time limit,
+                but a timer will run to help you keep check. If you take this
+                quiz again, try to cut down your time to become an expert on
+                FBLA!
+              </h4>
+              <p>By clicking continue, the timer will begin.</p>
+            </div>
+
+            <button onClick={() => this.getQuestion()} className="closeButton">
+              BEGIN
+            </button>
+          </div>
+        </div>
+
+        <div
+          style={{
+            visibility: this.state.congratsPopupVisibility,
+            opacity: this.state.congratsPopupOpacity,
+            transition: "all 1s",
+          }}
+          className="popUp"
+        >
+          <Confetti width={width} height={height} />
+          <div className="congratsPopupBox">
+            <div>
+              <h2>Congratulations!</h2>
+              <p>You have completed the FBLA 5 question quiz.</p>
+              <h1 id="score"></h1>
+              <p>Time taken:</p>
+              <h1>
+                {moment()
+                  .hour(0)
+                  .minute(0)
+                  .second(this.state.time)
+                  .format("HH : mm : ss")}
+              </h1>
+              <button
+                onClick={() =>
+                  this.setState({
+                    reportPopupVisibility: "visible",
+                    reportPopupOpacity: 1,
+                    congratsPopupVisibility: "hidden",
+                    congratsPopupOpacity: 0,
+                  })
+                }
+              >
+                view report
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            visibility: this.state.reportPopupVisibility,
+            opacity: this.state.reportPopupOpacity,
+            transition: "all 1s",
+          }}
+          className="screenPopUp"
+        >
+          <div className="questionReport">
+            <h1>Questions</h1>
+            <h4>
+              {this.state.checker[0].check}
+              Q1 {this.state.questions[0].question}
+            </h4>
+            <p>Your answer: {this.state.currentAnswers[0].userTfAnswer}</p>
+            <p>Correct answer: {this.state.answers[0].tfanswer}</p>
+
+            <h4>
+              {this.state.checker[1].check} Q2{" "}
+              {this.state.questions[1].question}
+            </h4>
+            <p>Your answer: {this.state.currentAnswers[1].userTfAnswer}</p>
+            <p>Correct answer: {this.state.answers[1].tfanswer}</p>
+
+            <h4>
+              {this.state.checker[2].check} Q3{" "}
+              {this.state.questions[2].question}
+            </h4>
+            <p>Your answer: {this.state.currentAnswers[2].userAnswer}</p>
+            <p>Correct answer: {this.state.answers[2].answer}</p>
+
+            <h4>
+              {this.state.checker[3].check} Q4{" "}
+              {this.state.questions[3].question}
+            </h4>
+            <p>Your answer: {this.state.currentAnswers[3].userAnswer}</p>
+            <p>Correct answer: {this.state.answers[3].answer}</p>
+
+            <h4>
+              {this.state.checker[4].check} Q5{" "}
+              {this.state.questions[4].question}
+            </h4>
+            <p>Your answer: {this.state.currentAnswers[4].userAnswer}</p>
+            <p>Correct answer: {this.state.answers[4].answer}</p>
+          </div>
+          <div className="timerAndScore">
+            <h1 id="score"></h1>
+            <div>
+              <h1>
+                {moment()
+                  .hour(0)
+                  .minute(0)
+                  .second(this.state.time)
+                  .format("HH : mm : ss")}
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="timer">
+          <h1>
+            {moment()
+              .hour(0)
+              .minute(0)
+              .second(this.state.time)
+              .format("HH : mm : ss")}
+          </h1>
+        </div>
+
         <div className="questions">
           {theQuestion1}
           <br></br>
-          <br></br>
           <hr></hr>
           {theQuestion2}
-          <br></br>
           <br></br> <hr></hr>
           {theQuestion3}
           <br></br>
-          <br></br>
           <hr></hr>
           {theQuestion4}
-          <br></br>
           <br></br>
           <hr></hr>
           {theQuestion5}
@@ -316,7 +502,6 @@ class Quiz extends React.Component {
           <p>{this.state.checker[2].check}</p>
           <p>{this.state.checker[3].check}</p>
           <p>{this.state.checker[4].check}</p>
-          <p id="score"></p>
         </div>
 
         <div>
