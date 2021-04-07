@@ -194,7 +194,7 @@ class Quiz extends React.Component {
           this.state.answers[i].tfanswer ===
           this.state.currentAnswers[i].userTfAnswer
         ) {
-          temp[i].check = " ✔️";
+          temp[i].check = "✔️";
         } else {
           temp[i].check = "	❌";
         }
@@ -204,12 +204,12 @@ class Quiz extends React.Component {
     var n;
     var correct = 0;
     for (n = 0; n < 5; n++) {
-      if (this.state.checker[n].check === "✔️") {
+      if (temp[n].check === "✔️") {
         correct++;
       }
     }
 
-    var percent = (correct / 5) * 100;
+    var percent = correct * 20;
     var score = "your score: " + percent.toString() + "%";
     document.getElementById("score").innerHTML = score;
   }
@@ -419,6 +419,7 @@ class Quiz extends React.Component {
         >
           <div className="questionReport">
             <h1>Questions</h1>
+            <h1 id="score"></h1>
             <h4>
               {this.state.checker[0].check}
               Q1 {this.state.questions[0].question}
@@ -454,9 +455,9 @@ class Quiz extends React.Component {
             <p>Your answer: {this.state.currentAnswers[4].userAnswer}</p>
             <p>Correct answer: {this.state.answers[4].answer}</p>
           </div>
-          <div className="timerAndScore">
+          {/* <div className="timerAndScore">
             <h1 id="score"></h1>
-            <div>
+             <div>
               <h1>
                 {moment()
                   .hour(0)
@@ -464,8 +465,8 @@ class Quiz extends React.Component {
                   .second(this.state.time)
                   .format("HH : mm : ss")}
               </h1>
-            </div>
-          </div>
+            </div> 
+          </div> */}
         </div>
         <div className="timer">
           <h1>
