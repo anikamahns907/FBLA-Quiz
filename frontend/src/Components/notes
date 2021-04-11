@@ -126,11 +126,45 @@ UNTIL SUNDAY
 
 
 Priorities:
--Popup
--Timer
 -chat box
--confetti
 -reports (plus print results)
 -database structure (different topics)
 -showing correct answer
 (front page intro)
+-final popup -have try again
+-css gradient
+
+mongoimport --uri — db myFirstDatabase — collection questions — type csv — headerline — ignoreBlanks — file DB.csv
+
+mongoimport --uri "mongodb://Morty:<PASSWORD>@jasper-shard-00-00-mrihb.mongodb.net:27017/jasper?ssl=true&replicaSet=jasper-shard-0&authSource=admin" --collection User --drop --file ./src/data/user.json --jsonArray
+
+Uploading DB 
+
+- go to terminal and paste cd C:\Users\pxa11\Downloads\mongodb-database-tools-windows-x86_64-100.3.0\mongodb-database-tools-windows-x86_64-100.3.0\bin
+- then paste: 
+mongoimport --uri "mongodb+srv://adminanika:adminanika@cluster0.dymfm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" --db myFirstDatabase --collection questions --type csv --headerline --ignoreBlanks --file DB.csv
+
+resource:
+https://docs.mongodb.com/database-tools/mongoimport/#mongodb-binary-bin.mongoimport
+https://medium.com/analytics-vidhya/import-csv-file-into-mongodb-9b9b86582f34 
+
+saturday
+- finsih final popup
+- help page
+- printable
+
+sunday 
+- fix bugs
+- aesthetics
+
+weekend goal:
+have pretty much evertyhgin done except chatbox
+
+monday:
+- figure out chat box
+goal end of monday is to have the entire proejct done
+
+
+tuesday - friday
+spend many hours doing presentation.
+

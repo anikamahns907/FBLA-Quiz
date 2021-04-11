@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import * as moment from "moment";
 import Confetti from "react-confetti";
+import ReactToPrint from "react-to-print";
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -58,6 +59,11 @@ class Quiz extends React.Component {
       reportPopupVisibility: "hidden",
       reportPopupOpacity: 0,
       checkSymbol: "",
+      showType: false,
+      userName: "<enter name>",
+      getQuestionButtonClicked: false,
+      score: 0,
+      submitUserAnswers: false,
     };
   }
 
@@ -90,38 +96,45 @@ class Quiz extends React.Component {
 
   getQuestion() {
     // Make a request for a user with a given ID
-    //get request for API endpoint
-    axios
-      .get(
-        "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz"
-      )
-      .then((response) => {
-        //// handle success
-        console.log(response.data);
-        this.setState({
-          questions: response.data,
-          popupOpacity: 0,
-          popupVisibility: "hidden",
-        });
-      })
-      .then(() => {
-        this.setState({
-          isStarted: true,
-          time: this.state.time,
-        });
-
-        this.timer = setInterval(
-          () =>
+    this.setState(
+      {
+        getQuestionButtonClicked: true,
+      },
+      () => {
+        //get request for API endpoint
+        axios
+          .get(
+            "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz"
+          )
+          .then((response) => {
+            //// handle success
+            console.log(response.data);
             this.setState({
-              time: this.state.time + 1,
-            }),
-          1000
-        );
-      })
-      .catch((error) => {
-        // handle error
-        console.log(error);
-      });
+              questions: response.data,
+              popupOpacity: 0,
+              popupVisibility: "hidden",
+            });
+          })
+          .then(() => {
+            this.setState({
+              isStarted: true,
+              time: this.state.time,
+            });
+
+            this.timer = setInterval(
+              () =>
+                this.setState({
+                  time: this.state.time + 1,
+                }),
+              1000
+            );
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+          });
+      }
+    );
   }
 
   //collect userAnswer or userTfAnswer and quetion id
@@ -136,43 +149,44 @@ class Quiz extends React.Component {
         return -1;
       }
     }
+    this.setState({ submitUserAnswers: true }, () => {
+      axios
+        .post(
+          "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz?id1=" +
+            this.state.currentAnswers[0].id +
+            "&id2=" +
+            this.state.currentAnswers[1].id +
+            "&id3=" +
+            this.state.currentAnswers[2].id +
+            "&id4=" +
+            this.state.currentAnswers[3].id +
+            "&id5=" +
+            this.state.currentAnswers[4].id
+        )
+        .then((response) => {
+          //// handle success
+          console.log(response.data);
+          this.setState({
+            answers: response.data,
+            congratsPopupVisibility: "visible",
+            congratsPopupOpacity: 1,
+          });
+        })
+        .then(() => {
+          this.gradeQuestions();
+        })
+        .then(() => {
+          this.setState({
+            isStarted: false,
+          });
+          clearInterval(this.timer);
+        })
 
-    axios
-      .post(
-        "https://4ycingtvqk.execute-api.us-east-2.amazonaws.com/default/FBLA-quiz?id1=" +
-          this.state.currentAnswers[0].id +
-          "&id2=" +
-          this.state.currentAnswers[1].id +
-          "&id3=" +
-          this.state.currentAnswers[2].id +
-          "&id4=" +
-          this.state.currentAnswers[3].id +
-          "&id5=" +
-          this.state.currentAnswers[4].id
-      )
-      .then((response) => {
-        //// handle success
-        console.log(response.data);
-        this.setState({
-          answers: response.data,
-          congratsPopupVisibility: "visible",
-          congratsPopupOpacity: 1,
+        .catch((error) => {
+          // handle error
+          console.log(error);
         });
-      })
-      .then(() => {
-        this.gradeQuestions();
-      })
-      .then(() => {
-        this.setState({
-          isStarted: false,
-        });
-        clearInterval(this.timer);
-      })
-
-      .catch((error) => {
-        // handle error
-        console.log(error);
-      });
+    });
   }
 
   gradeQuestions() {
@@ -210,8 +224,8 @@ class Quiz extends React.Component {
     }
 
     var percent = correct * 20;
-    var score = "your score: " + percent.toString() + "%";
-    document.getElementById("score").innerHTML = score;
+    var score = "Score: " + percent.toString() + "%";
+    this.setState({ score: score });
   }
   // else
   // if (this.state.currentAnswers.userAnswer === "Q: NOT ANSWERED") {
@@ -234,11 +248,35 @@ class Quiz extends React.Component {
       return (
         <div>
           <h4>{data.tfversion}</h4>
-          <button onClick={() => this.handleStates(data._id, "TRUE", qNum)}>
-            true
+          <button
+            onClick={() => this.handleStates(data._id, "TRUE", qNum)}
+            style={{
+              background:
+                this.state.currentAnswers[qNum].userTfAnswer === "TRUE"
+                  ? "rgb(107, 8, 8)"
+                  : "transparent",
+              color:
+                this.state.currentAnswers[qNum].userTfAnswer === "TRUE"
+                  ? "white"
+                  : "rgb(107, 8, 8)",
+            }}
+          >
+            True
           </button>
-          <button onClick={() => this.handleStates(data._id, "FALSE", qNum)}>
-            false
+          <button
+            onClick={() => this.handleStates(data._id, "FALSE", qNum)}
+            style={{
+              background:
+                this.state.currentAnswers[qNum].userTfAnswer === "FALSE"
+                  ? "rgb(107, 8, 8)"
+                  : "transparent",
+              color:
+                this.state.currentAnswers[qNum].userTfAnswer === "FALSE"
+                  ? "white"
+                  : "rgb(107, 8, 8)",
+            }}
+          >
+            False
           </button>
         </div>
       );
@@ -335,6 +373,13 @@ class Quiz extends React.Component {
   //   });
   // }
 
+  handleType() {
+    this.setState({ showType: !this.state.showType });
+  }
+  getUsersName(event) {
+    this.setState({ userName: event.target.value });
+  }
+
   render() {
     var theQuestion1 = this.displayQuestion("tf", this.state.questions[0], 0);
     var theQuestion2 = this.displayQuestion("tf", this.state.questions[1], 1);
@@ -343,7 +388,7 @@ class Quiz extends React.Component {
     var theQuestion5 = this.displayQuestion("wr", this.state.questions[4], 4);
     const { width, height } = 59;
     return (
-      <div className="content">
+      <div className="contentQuiz">
         <div
           style={{
             visibility: this.state.popupVisibility,
@@ -366,8 +411,16 @@ class Quiz extends React.Component {
               <p>By clicking continue, the timer will begin.</p>
             </div>
 
-            <button onClick={() => this.getQuestion()} className="closeButton">
-              BEGIN
+            <button
+              onClick={() => this.getQuestion()}
+              className="closeButton"
+              style={{
+                pointerEvents: this.state.getQuestionButtonClicked
+                  ? "none"
+                  : "all",
+              }}
+            >
+              {this.state.getQuestionButtonClicked ? "Loading..." : "BEGIN"}
             </button>
           </div>
         </div>
@@ -383,16 +436,20 @@ class Quiz extends React.Component {
           <Confetti width={width} height={height} />
           <div className="congratsPopupBox">
             <div>
-              <h2>Congratulations!</h2>
-              <p>You have completed the FBLA 5 question quiz.</p>
-              <h1 id="score"></h1>
-              <p>Time taken:</p>
-              <h1>
+              <h1 className="congrats">Congratulations!</h1>
+
+              {/* <p className="congratsSubtitle">
+                You have completed the FBLA 5 question quiz.
+              </p> */}
+              <h1>{this.state.score}</h1>
+
+              <h1 className="timeTaken">
+                Time taken:
                 {moment()
                   .hour(0)
                   .minute(0)
                   .second(this.state.time)
-                  .format("HH : mm : ss")}
+                  .format(" HH : mm : ss")}
               </h1>
               <button
                 onClick={() =>
@@ -404,58 +461,171 @@ class Quiz extends React.Component {
                   })
                 }
               >
-                view report
+                View Report
+              </button>
+              <button onClick={() => window.location.reload()}>
+                Try Again
               </button>
             </div>
           </div>
         </div>
+
         <div
           style={{
             visibility: this.state.reportPopupVisibility,
             opacity: this.state.reportPopupOpacity,
             transition: "all 1s",
           }}
-          className="screenPopUp"
+          className="popUpReport"
         >
-          <div className="questionReport">
-            <h1>Questions</h1>
-            <h1 id="score"></h1>
-            <h4>
-              {this.state.checker[0].check}
-              Q1 {this.state.questions[0].question}
-            </h4>
-            <p>Your answer: {this.state.currentAnswers[0].userTfAnswer}</p>
-            <p>Correct answer: {this.state.answers[0].tfanswer}</p>
+          <div className="overlay"></div>
+          <div className="mainReportDiv">
+            <div className="setting">
+              <br></br>
+              <br></br>
+              <h3>Report Settings: </h3>
+              <label>View/Hide question types </label>
+              <button
+                onClick={() => this.handleType()}
+                style={{
+                  background: this.state.showType
+                    ? "rgb(107, 8, 8)"
+                    : "transparent",
+                  color: this.state.showType ? "white" : "rgb(107, 8, 8)",
+                }}
+              >
+                Toggle Type
+              </button>
+              <br></br>
+              <label>Enter your name: </label>
+              <input
+                type="text"
+                onChange={(event) => this.getUsersName(event)}
+                value={this.state.userName}
+              />{" "}
+              <br></br>
+              <br></br>
+              <ReactToPrint
+                trigger={() => {
+                  return (
+                    <a href="#" className="printButton hover">
+                      Print Report
+                    </a>
+                  );
+                }}
+                content={() => this.componentRef}
+              />
+            </div>
 
-            <h4>
-              {this.state.checker[1].check} Q2{" "}
-              {this.state.questions[1].question}
-            </h4>
-            <p>Your answer: {this.state.currentAnswers[1].userTfAnswer}</p>
-            <p>Correct answer: {this.state.answers[1].tfanswer}</p>
+            <div
+              ref={(el) => (this.componentRef = el)}
+              className="questionReport"
+            >
+              <div className="timeAndScore">
+                <h1>{this.state.userName}'s Report</h1>
+                <h5>
+                  Time taken:
+                  {moment()
+                    .hour(0)
+                    .minute(0)
+                    .second(this.state.time)
+                    .format(" HH : mm : ss ")}
+                  ~ {this.state.score}
+                </h5>
+              </div>
+              <h1>Questions</h1>
 
-            <h4>
-              {this.state.checker[2].check} Q3{" "}
-              {this.state.questions[2].question}
-            </h4>
-            <p>Your answer: {this.state.currentAnswers[2].userAnswer}</p>
-            <p>Correct answer: {this.state.answers[2].answer}</p>
+              <h4>
+                {this.state.checker[0].check}
+                Q1 {this.state.questions[0].question}
+              </h4>
+              <p>Your answer: {this.state.currentAnswers[0].userTfAnswer}</p>
+              <p>Correct answer: {this.state.answers[0].tfanswer}</p>
+              <i
+                style={{
+                  visibility: this.state.showType ? "visible" : "hidden",
+                  opacity: this.state.showType ? "1" : "0",
+                  transition: "all 1s",
+                  background: "rgb(107, 8, 8)",
+                  color: "white",
+                }}
+              >
+                Question type: {this.state.questions[0].type}
+              </i>
 
-            <h4>
-              {this.state.checker[3].check} Q4{" "}
-              {this.state.questions[3].question}
-            </h4>
-            <p>Your answer: {this.state.currentAnswers[3].userAnswer}</p>
-            <p>Correct answer: {this.state.answers[3].answer}</p>
+              <h4>
+                {this.state.checker[1].check} Q2{" "}
+                {this.state.questions[1].question}
+              </h4>
+              <p>Your answer: {this.state.currentAnswers[1].userTfAnswer}</p>
+              <p>Correct answer: {this.state.answers[1].tfanswer}</p>
+              <i
+                style={{
+                  visibility: this.state.showType ? "visible" : "hidden",
+                  opacity: this.state.showType ? "1" : "0",
+                  transition: "all 1s",
+                  background: "rgb(107, 8, 8)",
+                  color: "white",
+                }}
+              >
+                Question type: {this.state.questions[1].type}
+              </i>
 
-            <h4>
-              {this.state.checker[4].check} Q5{" "}
-              {this.state.questions[4].question}
-            </h4>
-            <p>Your answer: {this.state.currentAnswers[4].userAnswer}</p>
-            <p>Correct answer: {this.state.answers[4].answer}</p>
-          </div>
-          {/* <div className="timerAndScore">
+              <h4>
+                {this.state.checker[2].check} Q3{" "}
+                {this.state.questions[2].question}
+              </h4>
+              <p>Your answer: {this.state.currentAnswers[2].userAnswer}</p>
+              <p>Correct answer: {this.state.answers[2].answer}</p>
+              <i
+                style={{
+                  visibility: this.state.showType ? "visible" : "hidden",
+                  opacity: this.state.showType ? "1" : "0",
+                  transition: "all 1s",
+                  background: "rgb(107, 8, 8)",
+                  color: "white",
+                }}
+              >
+                Question type: {this.state.questions[2].type}
+              </i>
+
+              <h4>
+                {this.state.checker[3].check} Q4{" "}
+                {this.state.questions[3].question}
+              </h4>
+              <p>Your answer: {this.state.currentAnswers[3].userAnswer}</p>
+              <p>Correct answer: {this.state.answers[3].answer}</p>
+              <i
+                style={{
+                  visibility: this.state.showType ? "visible" : "hidden",
+                  opacity: this.state.showType ? "1" : "0",
+                  transition: "all 1s",
+                  background: "rgb(107, 8, 8)",
+                  color: "white",
+                }}
+              >
+                Question type: {this.state.questions[3].type}
+              </i>
+
+              <h4>
+                {this.state.checker[4].check} Q5{" "}
+                {this.state.questions[4].question}
+              </h4>
+              <p>Your answer: {this.state.currentAnswers[4].userAnswer}</p>
+              <p>Correct answer: {this.state.answers[4].answer}</p>
+              <i
+                style={{
+                  visibility: this.state.showType ? "visible" : "hidden",
+                  opacity: this.state.showType ? "1" : "0",
+                  transition: "all 1s",
+                  background: "rgb(107, 8, 8)",
+                  color: "white",
+                }}
+              >
+                Question type: {this.state.questions[4].type}
+              </i>
+            </div>
+            {/* <div className="timerAndScore">
             <h1 id="score"></h1>
              <div>
               <h1>
@@ -467,18 +637,19 @@ class Quiz extends React.Component {
               </h1>
             </div> 
           </div> */}
-        </div>
-        <div className="timer">
-          <h1>
-            {moment()
-              .hour(0)
-              .minute(0)
-              .second(this.state.time)
-              .format("HH : mm : ss")}
-          </h1>
+          </div>
         </div>
 
         <div className="questions">
+          <div className="timer">
+            <h1>
+              {moment()
+                .hour(0)
+                .minute(0)
+                .second(this.state.time)
+                .format("HH : mm : ss")}
+            </h1>
+          </div>
           {theQuestion1}
           <br></br>
           <hr></hr>
@@ -491,27 +662,25 @@ class Quiz extends React.Component {
           <br></br>
           <hr></hr>
           {theQuestion5}
-          <p> {this.state.currentAnswers[0].userTfAnswer} </p>
-          <p> {this.state.currentAnswers[1].userTfAnswer} </p>
-          <p> {this.state.currentAnswers[2].userAnswer} </p>
-          <p> {this.state.currentAnswers[3].userAnswer} </p>
-          <p> {this.state.currentAnswers[4].userAnswer} </p>
           <br></br>
           <hr></hr>
-          <p>{this.state.checker[0].check}</p>
-          <p>{this.state.checker[1].check}</p>
-          <p>{this.state.checker[2].check}</p>
-          <p>{this.state.checker[3].check}</p>
-          <p>{this.state.checker[4].check}</p>
-        </div>
-
-        <div>
+          <br></br>
+          <h4>Quiz Summary</h4>
+          <p>Question 1: {this.state.currentAnswers[0].userTfAnswer} </p>
+          <p>Question 2: {this.state.currentAnswers[1].userTfAnswer} </p>
+          <p>Question 3: {this.state.currentAnswers[2].userAnswer} </p>
+          <p>Question 4: {this.state.currentAnswers[3].userAnswer} </p>
+          <p>Question 5: {this.state.currentAnswers[4].userAnswer} </p>
+          <br></br>
           <button
             onClick={() => this.getAnswers()}
             className="submitButton"
             type="submit"
+            style={{
+              pointerEvents: this.state.submitUserAnswers ? "none" : "all",
+            }}
           >
-            Submit
+            {this.state.submitUserAnswers ? "Loading..." : "Submit"}
           </button>
         </div>
       </div>
