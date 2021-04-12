@@ -508,7 +508,7 @@ class Quiz extends React.Component {
               <ReactToPrint
                 trigger={() => {
                   return (
-                    <a href="#" className="printButton hover">
+                    <a href="# " className="printButton hover">
                       Print Report
                     </a>
                   );

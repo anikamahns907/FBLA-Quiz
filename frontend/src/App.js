@@ -6,15 +6,15 @@ import Home from "./Components/Home";
 import QAS from "./Components/QAS";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     return (
       <Router>
         <div>
-          <div class="sideBar">
+          <div className="sideBar">
             <div className="buttonHolder">
               <div className="sideBarButtons hover">
                 <Link to="/">Home</Link>
