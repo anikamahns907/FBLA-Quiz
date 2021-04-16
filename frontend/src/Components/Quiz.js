@@ -3,6 +3,7 @@ import axios from "axios";
 import * as moment from "moment";
 import Confetti from "react-confetti";
 import ReactToPrint from "react-to-print";
+import ChatBot from "react-simple-chatbot";
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -67,21 +68,16 @@ class Quiz extends React.Component {
     };
   }
 
-  handleChangeOfDropDown(id, event, qNum) {
+  // setting state of current answers to the adjusted id and user answers
+  handleDropAndWritten(id, event, qNum) {
     var temp = this.state.currentAnswers;
     temp[qNum].id = id;
     temp[qNum].userAnswer = event.target.value;
     this.setState({ currentAnswers: temp });
   }
 
-  handleWrittenResponse(id, event, qNum) {
-    var temp = this.state.currentAnswers;
-    temp[qNum].id = id;
-    temp[qNum].userAnswer = event.target.value;
-    this.setState({ currentAnswers: temp });
-  }
-
-  //function that uses if/else if statements to determine what state (either userTfAnswer or userAnswer) to pass the user input
+  /* Function that implements if / else-if statements to determine what
+state (either userTfAnswer or userAnswer) to pass the user input to */
   handleStates(id, usersAnswer, qNum) {
     var temp = this.state.currentAnswers;
     temp[qNum].id = id;
@@ -94,6 +90,7 @@ class Quiz extends React.Component {
     }
   }
 
+  // begins quiz by sending a HTTP GET request
   getQuestion() {
     // Make a request for a user with a given ID
     this.setState(
@@ -109,12 +106,14 @@ class Quiz extends React.Component {
           .then((response) => {
             //// handle success
             console.log(response.data);
+            // sets the popup opacity to 0 and visibility to "hidden"
             this.setState({
               questions: response.data,
               popupOpacity: 0,
               popupVisibility: "hidden",
             });
           })
+          //begins timer
           .then(() => {
             this.setState({
               isStarted: true,
@@ -137,8 +136,9 @@ class Quiz extends React.Component {
     );
   }
 
-  //collect userAnswer or userTfAnswer and quetion id
+  //collect userAnswer or userTfAnswer and question id
   getAnswers() {
+    // notifies user if required fields are not complete
     var i;
     for (i = 0; i < 5; i++) {
       if (
@@ -166,6 +166,7 @@ class Quiz extends React.Component {
         .then((response) => {
           //// handle success
           console.log(response.data);
+          // hides congrats popup
           this.setState({
             answers: response.data,
             congratsPopupVisibility: "visible",
@@ -176,6 +177,7 @@ class Quiz extends React.Component {
           this.gradeQuestions();
         })
         .then(() => {
+          // stops timer
           this.setState({
             isStarted: false,
           });
@@ -189,9 +191,13 @@ class Quiz extends React.Component {
     });
   }
 
+  // checks each user answer and sets checker state to updated array of dictionaries. Score is calculated and score state is set.
   gradeQuestions() {
+    // instantiates temporary variable equal to checker state
     var temp = this.state.checker;
     var i;
+    // goes through all of users answers and first checks if question in check is a tf question.
+    // Then, additional if and else statments are used to check if users answer was correct.
     for (i = 0; i < 5; i++) {
       if (this.state.currentAnswers[i].userAnswer !== "Q: NOT ANSWERED") {
         if (
@@ -214,36 +220,26 @@ class Quiz extends React.Component {
         }
       }
     }
+    // sets checker state to temp (array of dictionaries)
     this.setState({ checker: temp });
     var n;
     var correct = 0;
+    // loops through each check to count the number of correct answers
     for (n = 0; n < 5; n++) {
       if (temp[n].check === "✔️") {
         correct++;
       }
     }
-
+    // calculates score
     var percent = correct * 20;
     var score = "Score: " + percent.toString() + "%";
+    // sets score state to score
     this.setState({ score: score });
   }
-  // else
-  // if (this.state.currentAnswers.userAnswer === "Q: NOT ANSWERED") {
-  //   if (
-  //     this.state.currentAnswers.userTfAnswer === this.state.answers.tfanswer
-  //   ) {
-  //     this.setState({ check: "correct" });
-  //   } else {
-  //     this.setState({ check: "incorrect" });
-  //   }
-  // } else {
-  //   if (this.state.currentAnswers.userAnswer === this.state.answers.answer) {
-  //     this.setState({ check: "correct" });
-  //   } else {
-  //     this.setState({ check: "incorrect" });
-  //   }
 
+  // given the rtpe of question (passed in parameter), the question version and and answer choices are placed into a div.
   displayQuestion(type, data, qNum) {
+    // If type is t/f, tf question version will show and ternary operation is used to display selected button. Handle function is called to handle the setting of appropriate states.
     if (type === "tf") {
       return (
         <div>
@@ -281,6 +277,8 @@ class Quiz extends React.Component {
         </div>
       );
     } else if (type === "mc") {
+      /* If type is multiple choice,  a div will show obtaining question and radio buttons aside choices. 
+    Handle function is called to handle the setting of appropriate states.*/
       return (
         <div>
           <h4>{data.question}</h4>
@@ -324,12 +322,14 @@ class Quiz extends React.Component {
         </div>
       );
     } else if (type === "dd") {
+      /* If type is drop down, question will display and options will display. Handle function specifically for drop 
+      down and written response (due to target event) is called to handle the setting of appropriate states. */
       return (
         <div>
           <h4>{data.question}</h4>
           <select
             onChange={(event) =>
-              this.handleChangeOfDropDown(data._id, event, qNum)
+              this.handleDropAndWritten(data._id, event, qNum)
             }
           >
             <option value={data.c1}>{data.c1}</option>
@@ -340,6 +340,9 @@ class Quiz extends React.Component {
         </div>
       );
     } else if (type === "wr") {
+      /*If type is written response, question and input bar will display in div. Handle function specifically for drop 
+      down and written response (due to target event) is called to handle the setting of appropriate states. */
+
       return (
         <div>
           <h4>{data.question}</h4>
@@ -350,42 +353,34 @@ class Quiz extends React.Component {
                 type="text"
                 name="name"
                 onChange={(event) =>
-                  this.handleWrittenResponse(data._id, event, qNum)
+                  this.handleDropAndWritten(data._id, event, qNum)
                 }
               />
             </label>
           </form>
-          {/* <form>
-            <label for="writtenResponse">Type your answer below</label>
-            <br />
-            <input type="text" id="writtenResponse" name="writtenResponse" />
-            <br />
-          </form> */}
         </div>
       );
     }
   }
 
-  // handlePopup() {
-  //   this.setState({
-  //     popupOpacity: 0,
-  //     popupVisibility: "hidden",
-  //   });
-  // }
-
+  // When called, the state showType will become the opposite (either true or false) of its initial value.
   handleType() {
     this.setState({ showType: !this.state.showType });
   }
+
+  // sets userName as user input
   getUsersName(event) {
     this.setState({ userName: event.target.value });
   }
 
   render() {
+    // instantiates 5 variables and sets each to the displayQuestion() function that takes question type, data, and question number
     var theQuestion1 = this.displayQuestion("tf", this.state.questions[0], 0);
     var theQuestion2 = this.displayQuestion("tf", this.state.questions[1], 1);
     var theQuestion3 = this.displayQuestion("mc", this.state.questions[2], 2);
     var theQuestion4 = this.displayQuestion("dd", this.state.questions[3], 3);
     var theQuestion5 = this.displayQuestion("wr", this.state.questions[4], 4);
+    //
     const { width, height } = 59;
     return (
       <div className="contentQuiz">
@@ -398,9 +393,6 @@ class Quiz extends React.Component {
           className="popUp"
         >
           <div className="whitePopup">
-            {/* <button className="button" onClick={() => this.getQuestion()}>
-          Start when you are ready!
-        </button> */}
             <div className="popupText">
               <h4>
                 Welcome to FBLA 5 question Quiz! There will be no time limit,
@@ -437,10 +429,6 @@ class Quiz extends React.Component {
           <div className="congratsPopupBox">
             <div>
               <h1 className="congrats">Congratulations!</h1>
-
-              {/* <p className="congratsSubtitle">
-                You have completed the FBLA 5 question quiz.
-              </p> */}
               <h1>{this.state.score}</h1>
 
               <h1 className="timeTaken">
@@ -502,7 +490,7 @@ class Quiz extends React.Component {
                 type="text"
                 onChange={(event) => this.getUsersName(event)}
                 value={this.state.userName}
-              />{" "}
+              />
               <br></br>
               <br></br>
               <ReactToPrint
@@ -682,6 +670,54 @@ class Quiz extends React.Component {
           >
             {this.state.submitUserAnswers ? "Loading..." : "Submit"}
           </button>
+          <ChatBot
+            steps={[
+              {
+                id: "1",
+                message: "What's your questions?",
+                trigger: "2",
+              },
+              {
+                id: "2",
+                options: [
+                  {
+                    value: 1,
+                    label: "Is there a time limit on the quiz?",
+                    trigger: "4",
+                  },
+                  {
+                    value: 2,
+                    label:
+                      "Does the quiz contain the same questions everytime you take it?",
+                    trigger: "3",
+                  },
+                  {
+                    value: 3,
+                    label: "Do I have to fill in every question?",
+                    trigger: "5",
+                  },
+                ],
+              },
+              {
+                id: "3",
+                message:
+                  "No. The FBLA Quiz was created to randomly generate 5 questions from a database of 50 questions.",
+                trigger: "2",
+              },
+              {
+                id: "4",
+                message:
+                  " No. There is no time limit on the quiz. A stopwatch will begin as soon as you click the begin button, but there is no time limit. The timer is there for your benefit in pacing your assessment.",
+                end: true,
+              },
+              {
+                id: "5",
+                message:
+                  "Yes. In order to submit your quiz, you will need to provide an answer for each required field.",
+                end: true,
+              },
+            ]}
+          />
         </div>
       </div>
     );
