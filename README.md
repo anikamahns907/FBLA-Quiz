@@ -2,14 +2,14 @@
 
 #### Description
 
-FBLA Quiz is an interactive user interface that enables users to advance their knowledge about FBLA through the completion of a 5 question quiz.
+FBLA Quiz is an interactive user interface that enables users to advance their knowledge about FBLA through the completion of a 5 question quiz. 
 The five questions are randomly generated from a NoSQL database obtaining fifty collections.
-Once all required fields are filled, the user can submit the quiz, and a report page will display indicating a score, time, and all five questions answered along with the user’s answers and the correct answer choices.
-The user is able to customize and analyze their reports through report settings that allows users to toggle question type, enter their name, and print their reports.
+Once all required fields are filled, the user can submit the quiz, and a report page will display indicating a score, time, and all five questions answered along with the user’s answers and the correct answer choices. 
+The user is able to customize and analyze their reports through report settings that allows users to toggle question type, enter their name, and print their reports. 
 The site has three components: Home, Quiz, and QAS.
 
-##### Languages
 
+##### Languages
 - JavaScript
 - CSS
 - HTML
