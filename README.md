@@ -12,7 +12,7 @@ The site has three components: Home, Quiz, and QAS.
 
 #### Applications and Programs
 
-- [Mongo DB - https://www.mongodb.com/2](#https://www.mongodb.com/2)
+- [Mongo DB](#https://www.mongodb.com/2)
 
 - React.JS (https://reactjs.org/)
 
