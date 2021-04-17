@@ -4,7 +4,19 @@ import * as moment from "moment";
 import Confetti from "react-confetti";
 import ReactToPrint from "react-to-print";
 import ChatBot from "react-simple-chatbot";
+import { ThemeProvider } from "styled-components";
 
+const theme = {
+  background: "#f5f8fb",
+  fontFamily: "Helvetica Neue",
+  headerBgColor: "rgb(107, 8, 8)",
+  headerFontColor: "#fff",
+  headerFontSize: "15px",
+  botBubbleColor: "rgb(107, 8, 8)",
+  botFontColor: "#fff",
+  userBubbleColor: "#fff",
+  userFontColor: "#4a4a4a",
+};
 class Quiz extends React.Component {
   constructor(props) {
     super(props);
@@ -77,7 +89,7 @@ class Quiz extends React.Component {
   }
 
   /* Function that implements if / else-if statements to determine what
-state (either userTfAnswer or userAnswer) to pass the user input to */
+  state (either userTfAnswer or userAnswer) to pass the user input to */
   handleStates(id, usersAnswer, qNum) {
     var temp = this.state.currentAnswers;
     temp[qNum].id = id;
@@ -135,6 +147,7 @@ state (either userTfAnswer or userAnswer) to pass the user input to */
       }
     );
   }
+  //http request >>>> ||||| >>>> gateway >> lambda >> mongo
 
   //collect userAnswer or userTfAnswer and question id
   getAnswers() {
@@ -193,6 +206,11 @@ state (either userTfAnswer or userAnswer) to pass the user input to */
 
   // checks each user answer and sets checker state to updated array of dictionaries. Score is calculated and score state is set.
   gradeQuestions() {
+    /*
+    Trigger: from button xlixk
+    Output: grade questions and save to state
+    Summary: hsadjhaksdhkashdkasd
+    */
     // instantiates temporary variable equal to checker state
     var temp = this.state.checker;
     var i;
@@ -670,54 +688,124 @@ state (either userTfAnswer or userAnswer) to pass the user input to */
           >
             {this.state.submitUserAnswers ? "Loading..." : "Submit"}
           </button>
-          <ChatBot
-            steps={[
-              {
-                id: "1",
-                message: "What's your questions?",
-                trigger: "2",
-              },
-              {
-                id: "2",
-                options: [
+          <div className="chatBoxDiv">
+            <ThemeProvider theme={theme}>
+              <ChatBot
+                steps={[
                   {
-                    value: 1,
-                    label: "Is there a time limit on the quiz?",
-                    trigger: "4",
+                    id: "1",
+                    message: "What's your question?",
+                    trigger: "2",
                   },
                   {
-                    value: 2,
-                    label:
-                      "Does the quiz contain the same questions everytime you take it?",
-                    trigger: "3",
+                    id: "2",
+                    options: [
+                      {
+                        value: 1,
+                        label: "Is there a time limit on the quiz?",
+                        trigger: "4",
+                      },
+                      {
+                        value: 2,
+                        label:
+                          "Does the quiz contain the same questions everytime you take it?",
+                        trigger: "3",
+                      },
+                      {
+                        value: 3,
+                        label: "Do I have to fill in every question?",
+                        trigger: "5",
+                      },
+                    ],
                   },
                   {
-                    value: 3,
-                    label: "Do I have to fill in every question?",
-                    trigger: "5",
+                    id: "3",
+                    message:
+                      "No. The FBLA Quiz was created to randomly generate 5 questions from a database of 50 questions.",
+                    trigger: "6",
                   },
-                ],
-              },
-              {
-                id: "3",
-                message:
-                  "No. The FBLA Quiz was created to randomly generate 5 questions from a database of 50 questions.",
-                trigger: "2",
-              },
-              {
-                id: "4",
-                message:
-                  " No. There is no time limit on the quiz. A stopwatch will begin as soon as you click the begin button, but there is no time limit. The timer is there for your benefit in pacing your assessment.",
-                end: true,
-              },
-              {
-                id: "5",
-                message:
-                  "Yes. In order to submit your quiz, you will need to provide an answer for each required field.",
-                end: true,
-              },
-            ]}
-          />
+                  {
+                    id: "4",
+                    message:
+                      " No. There is no time limit on the quiz. A stopwatch will begin as soon as you click the begin button, but there is no time limit. The timer is there for your benefit in pacing your assessment.",
+                    trigger: "6",
+                  },
+                  {
+                    id: "5",
+                    message:
+                      "Yes. In order to submit your quiz, you will need to provide an answer for each required field.",
+                    trigger: "6",
+                  },
+                  {
+                    id: "6",
+                    message: "Do you have any other questions?",
+                    trigger: "7",
+                  },
+                  {
+                    id: "7",
+                    options: [
+                      {
+                        value: 1,
+                        label: "yes",
+                        trigger: "8",
+                      },
+                      {
+                        value: 1,
+                        label: "no",
+                        end: true,
+                      },
+                    ],
+                  },
+                  {
+                    id: "8",
+                    message: "What's your question?",
+                    trigger: "9",
+                  },
+                  {
+                    id: "9",
+                    options: [
+                      {
+                        value: 1,
+                        label:
+                          "How can I improve my score? / How can I prepare?",
+                        trigger: "10",
+                      },
+                      {
+                        value: 2,
+                        label: "Are all of the questions multiple choice? ",
+                        trigger: "11",
+                      },
+                      {
+                        value: 3,
+                        label:
+                          "Does the quiz contain the same questions everytime you take it?",
+                        trigger: "12",
+                      },
+                    ],
+                  },
+                  {
+                    id: "10",
+                    message:
+                      " Check out the offical FBLA page and read through each section of the page.",
+                    end: true,
+                  },
+                  {
+                    id: "11",
+                    message:
+                      " No. The FBLA Quiz is created to contain 4 different question types: multiple choice, drop down, free response, and true/false.",
+                    end: true,
+                  },
+                  {
+                    id: "12",
+                    message:
+                      " No. The FBLA Quiz was created to randomly generate 5 questions from a database of 50 questions.",
+                    end: true,
+                  },
+                ]}
+                floating={true}
+              />
+            </ThemeProvider>
+          </div>
         </div>
       </div>
     );
