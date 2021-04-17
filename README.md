@@ -7,28 +7,24 @@ The five questions are randomly generated from a NoSQL database obtaining fifty 
 Once all required fields are filled, the user can submit the quiz, and a report page will display indicating a score, time, and all five questions answered along with the user’s answers and the correct answer choices. 
 The user is able to customize and analyze their reports through report settings that allows users to toggle question type, enter their name, and print their reports. 
 The site has three components: Home, Quiz, and QAS.
+- Overall, applications and selections were made based on scalability, affordability, popularity, run-time, and speed.
 
-
-##### Languages
-- JavaScript
-- CSS
-- HTML
 
 #### Applications and Programs
 
-- Mongo DB
+- [Mongo DB - https://www.mongodb.com/2](#https://www.mongodb.com/2)
 
-- React.JS
+- React.JS (https://reactjs.org/)
 
-- AWS Lambda
+- AWS Lambda (https://aws.amazon.com/lambda/)
 
-- Postman
+- Postman (https://www.postman.com/)
 
-- Amazon API Gateway
+- Amazon API Gateway (https://aws.amazon.com/api-gateway/)
 
-- Virtual Studio Code
+- Virtual Studio Code (https://code.visualstudio.com/)
 
-- Windows Paint
+- Windows Paint (https://support.microsoft.com/en-us/windows/get-microsoft-paint-a6b9578c-ed1c-5b09-0699-4ed8115f9aa9)
 
 - Prettier
 
@@ -46,23 +42,26 @@ The site has three components: Home, Quiz, and QAS.
 - Methods and variables use **camelCase**.
 
 ## BACKEND
-- API Gateway -> AWS Lambda (FAAS) -> Mongo DB (non-relational NoSQl - not only structured query language)
+- API Gateway -> AWS Lambda (FAAS) -> Mongo DB  (non-relational NoSQl - not only structured query language)
 
-The backend was build 
-
-API Gateway
-- The API gateway acts as a communicator between the client and backend services. API Gateway supports HTTP methods. 
-In respect to FBLA Quiz, only two HTTP requests are made: GET request (to get all collections excluding the answers) and POST request (sends IDs of questions)
+The backend was build through google sheets and was then imported into MongoDB. In Mongo DB, a cluster of the database contained fifty collections which had the question, type, choices, and answer. A connection was then made between AWS Lambda. AWS Lambda is a FAAS (function as a service) meaning that the provider manages the majority of its operations. An API Gateway was then created to communicate HTTP methods from the client and the other backend services.The API Gateway calls the AWS Lambda through the use of a handler() function.  The code enabled the random generation of 5 collections.  The backend was written with Node.js. 
 
 
+## Frontend
+Only two HTTP methods were implemented into this website: GET and POST. The GET request was made through a axios.get() function that requested everything in the collections of the five randomly generated questions except the answers. The POST request was created through the axios.post() functon that passed the IDs of questions in order to get the right question to grade. 
+- React.js is a frontend library that enables interactive and dynamic UI through the division of components and the use of states. Three components were created: Home, Quiz, and QAS. The states object became increasingly useful throughout this project due to the changing of questions, answers, choices, and types. Several of the states are arrays of dictionaries so that it can obtain the information of 5 questions. States changed through the this.setState() function. Several times throughout the code, onClick (in HTML) calls a function that implements the set state function. React makes use of virtual DOM (document object model) to speed up rendering processes. React.JS has increasingly grown in popularity and was actually created by a Facebook software engineer. 
+
+- Languages: The majority of this code consists of javascript. Through javascript I was able to create if / else if / else statements. These statements became extremely useful when calculating scores and setting states as user answer input. Ternary operators were also used a couple of times to reduce complexion. In HTML, many divs and tags (<h1/>, <p/>, etc.) were created to manage designing. Tags included classNames that equaled CSS elements written in the CSS file. 
+
+- Code editor: Virtual Studio code and prettier.io were used to create the frontend. Virtual Studio code enables the use of many features including the installation of various npm packages. Prettier.io formats code when code is saved; as many may guess, it makes code "prettier".
 
 
 
-##### DataBase
 
-- Database was created and imported into Mongo DB and then a connection to AWS Lambda was made. From there, the API Gateway calls the AWS Lambda through a handler function.
 
-##### Other Npm Packages Downloaded
+
+#####  NPM Packages Installed
+Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
 
 Particle design ( npm i react-particles-js)
 https://www.npmjs.com/package/react-particles-js
