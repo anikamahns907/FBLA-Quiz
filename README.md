@@ -48,6 +48,10 @@ Npm packages advanced the designing process. Npm packages for react and API Gate
 [Printable Report (npm i react-to-print)](https://www.npmjs.com/package/react-to-print)
 
 
+[Interactive chatbot (npm install react-simple-chatbot --save)](https://lucasbassetti.com.br/react-simple-chatbot/#/docs/installation)
+
+
+
 ### Identifiers used for variables, constants, arrays, objects, etc.
 - HTML, JavaScript, CSS (languages) are **case sensitive**.
 
