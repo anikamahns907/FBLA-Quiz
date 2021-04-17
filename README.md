@@ -71,3 +71,10 @@ Npm packages advanced the designing process. Npm packages for react and API Gate
 
 
 [Printable Report (npm i react-to-print)](https://www.npmjs.com/package/react-to-print)
+
+
+## How to Install
+- Clone repository
+- cd frontend in terminal (change directory into frontend)
+- npm install 
+- npm start
