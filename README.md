@@ -14,7 +14,7 @@ The site has three components: Home, Quiz, and QAS.
 - CSS
 - HTML
 
-#### Applications
+#### Applications and Programs
 
 - Mongo DB
 
@@ -31,6 +31,32 @@ The site has three components: Home, Quiz, and QAS.
 - Windows Paint
 
 - Prettier
+
+- Node.js
+
+#### Identifiers used for variables, constants, arrays, objects, etc. 
+- HTML, JavaScript, CSS (languages) are **case sensitive**.
+
+- Four react states (objects)  incorporate arrays of dictionaries with appropriate names.
+
+- CSS selector proceeds dot (.) when individual HTML elements hold specific **CSS classNames**.
+
+- All react components and files are formatted with **PascalCase**.
+
+- Methods and variables use **camelCase**.
+
+## BACKEND
+- API Gateway -> AWS Lambda (FAAS) -> Mongo DB (non-relational NoSQl - not only structured query language)
+
+The backend was build 
+
+API Gateway
+- The API gateway acts as a communicator between the client and backend services. API Gateway supports HTTP methods. 
+In respect to FBLA Quiz, only two HTTP requests are made: GET request (to get all collections excluding the answers) and POST request (sends IDs of questions)
+
+
+
+
 
 ##### DataBase
 
