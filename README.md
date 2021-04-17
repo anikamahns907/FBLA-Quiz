@@ -1,6 +1,6 @@
 # FBLA Five Question Quiz
 
-#### Description
+### Description
 
 FBLA Quiz is an interactive user interface that enables users to advance their knowledge about FBLA through the completion of a 5 question quiz. 
 The five questions are randomly generated from a NoSQL database obtaining fifty collections.
@@ -10,7 +10,7 @@ The site has three components: Home, Quiz, and QAS.
 - Overall, applications and selections were made based on scalability, affordability, popularity, run-time, and speed.
 
 
-#### Applications and Programs
+### Applications and Programs
 
 - [Mongo DB](https://www.mongodb.com/2) - used to hold cluster containing database that contains the fifty collections
 
@@ -30,7 +30,7 @@ The site has three components: Home, Quiz, and QAS.
 
 - [Node.js](https://nodejs.org/en/) - used to code backend
 
-#### Identifiers used for variables, constants, arrays, objects, etc. 
+### Identifiers used for variables, constants, arrays, objects, etc. 
 - HTML, JavaScript, CSS (languages) are **case sensitive**.
 
 - Four react states (objects)  incorporate arrays of dictionaries with appropriate names.
@@ -47,15 +47,15 @@ The site has three components: Home, Quiz, and QAS.
 The backend was build through google sheets and was then imported into MongoDB. In Mongo DB, a cluster of the database contained fifty collections which had the question, type, choices, and answer. A connection was then made between AWS Lambda. AWS Lambda is a FAAS (function as a service) meaning that the provider manages the majority of its operations. An API Gateway was then created to communicate HTTP methods from the client and the other backend services.The API Gateway calls the AWS Lambda through the use of a handler() function.  The code enabled the random generation of 5 collections.  The backend was written with Node.js. 
 
 
-## Frontend
+## FRONTEND
 Only two HTTP methods were implemented into this website: GET and POST. The GET request was made through a axios.get() function that requested everything in the collections of the five randomly generated questions except the answers. The POST request was created through the axios.post() functon that passed the IDs of questions in order to get the right question to grade. 
 - React.js is a frontend library that enables interactive and dynamic UI through the division of components and the use of states. Three components were created: Home, Quiz, and QAS. The states object became increasingly useful throughout this project due to the changing of questions, answers, choices, and types. Several of the states are arrays of dictionaries so that it can obtain the information of 5 questions. States changed through the this.setState() function. Several times throughout the code, onClick (in HTML) calls a function that implements the set state function. React makes use of virtual DOM (document object model) to speed up rendering processes. React.JS has increasingly grown in popularity and was actually created by a Facebook software engineer. 
 
-- Languages: The majority of this code consists of javascript. Through javascript I was able to create if / else if / else statements. These statements became extremely useful when calculating scores and setting states as user answer input. Ternary operators were also used a couple of times to reduce complexion. In HTML, many divs and tags (<h1/>, <p/>, etc.) were created to manage designing. Tags included classNames that equaled CSS elements written in the CSS file. 
+- Languages: The majority of this code consists of javascript. Through javascript I was able to create if / else if / else statements. These statements became extremely useful when calculating scores and setting states as user answer input. Ternary operators were also used a couple of times to reduce complexion. In HTML, many divs and tags were created to manage designing. Tags included classNames that equaled CSS elements written in the CSS file. 
 
 - Code editor: Virtual Studio code and prettier.io were used to create the frontend. Virtual Studio code enables the use of many features including the installation of various npm packages. Prettier.io formats code when code is saved; as many may guess, it makes code "prettier".
 
-#####  NPM Packages Installed
+###  NPM Packages Installed
 Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
 
 [Particle design ( npm i react-particles-js)](https://www.npmjs.com/package/react-particles-js)
