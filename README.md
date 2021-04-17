@@ -55,25 +55,21 @@ Only two HTTP methods were implemented into this website: GET and POST. The GET 
 
 - Code editor: Virtual Studio code and prettier.io were used to create the frontend. Virtual Studio code enables the use of many features including the installation of various npm packages. Prettier.io formats code when code is saved; as many may guess, it makes code "prettier".
 
-
-
-
-
-
 #####  NPM Packages Installed
 Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
 
-Particle design ( npm i react-particles-js)
-https://www.npmjs.com/package/react-particles-js
+[Particle design ( npm i react-particles-js)](https://www.npmjs.com/package/react-particles-js)
 
-Axios NPM for HTTP GET and POST requests. (npm i axios)
-https://www.npmjs.com/package/axios/v/0.21.1
 
-Timer (import \* as moment from "moment")
-https://www.npmjs.com/package/moment
+[Axios NPM for HTTP GET and POST requests. (npm i axios)](https://www.npmjs.com/package/axios/v/0.21.1)
 
-Confetti (npm i react-confetti)
-https://www.npmjs.com/package/react-confetti
 
-Printable Report (npm i react-to-print)
-https://www.npmjs.com/package/react-to-print
+[Timer (import \* as moment from "moment")](https://www.npmjs.com/package/moment)
+
+
+[Confetti (npm i react-confetti)](https://www.npmjs.com/package/react-confetti)
+
+
+[Printable Report (npm i react-to-print)](https://www.npmjs.com/package/react-to-print)
+
+
