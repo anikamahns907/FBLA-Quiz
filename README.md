@@ -1,5 +1,5 @@
 # FBLA Five Question Quiz
-
+[view live](https://fbla-quiz.netlify.app/)
 ### Description
 
 FBLA Quiz is an interactive user interface that enables users to advance their knowledge about FBLA through the completion of a 5 question quiz.
@@ -10,7 +10,7 @@ The site has three components: Home, Quiz, and QAS.
 - Overall, applications and selections were made based on scalability, affordability, popularity, run-time, and speed.
 
 
-### Applications and Programs
+### Applications/Libraries/Environments/Packages
 
 - [Mongo DB](https://www.mongodb.com/2) - used to hold cluster containing database that contains the fifty collections
 
@@ -29,6 +29,24 @@ The site has three components: Home, Quiz, and QAS.
 - [Prettier.io](https://prettier.io/) - used to format code in VS code
 
 - [Node.js](https://nodejs.org/en/) - used to code backend
+
+###  NPM Packages Installed
+Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
+
+[Particle design ( npm i react-particles-js)](https://www.npmjs.com/package/react-particles-js)
+
+
+[Axios NPM for HTTP GET and POST requests. (npm i axios)](https://www.npmjs.com/package/axios/v/0.21.1)
+
+
+[Timer (import \* as moment from "moment")](https://www.npmjs.com/package/moment)
+
+
+[Confetti (npm i react-confetti)](https://www.npmjs.com/package/react-confetti)
+
+
+[Printable Report (npm i react-to-print)](https://www.npmjs.com/package/react-to-print)
+
 
 ### Identifiers used for variables, constants, arrays, objects, etc.
 - HTML, JavaScript, CSS (languages) are **case sensitive**.
@@ -54,23 +72,6 @@ Only two HTTP methods were implemented into this website: GET and POST. The GET 
 - Languages: The majority of this code consists of javascript. Through javascript I was able to create if / else if / else statements. These statements became extremely useful when calculating scores and setting states as user answer input. Ternary operators were also used a couple of times to reduce complexion. In HTML, many divs and tags were created to manage designing. Tags included classNames that equaled CSS elements written in the CSS file.
 
 - Code editor: Virtual Studio code and prettier.io were used to create the frontend. Virtual Studio code enables the use of many features including the installation of various npm packages. Prettier.io formats code when code is saved; as many may guess, it makes code "prettier".
-
-###  NPM Packages Installed
-Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
-
-[Particle design ( npm i react-particles-js)](https://www.npmjs.com/package/react-particles-js)
-
-
-[Axios NPM for HTTP GET and POST requests. (npm i axios)](https://www.npmjs.com/package/axios/v/0.21.1)
-
-
-[Timer (import \* as moment from "moment")](https://www.npmjs.com/package/moment)
-
-
-[Confetti (npm i react-confetti)](https://www.npmjs.com/package/react-confetti)
-
-
-[Printable Report (npm i react-to-print)](https://www.npmjs.com/package/react-to-print)
 
 
 ## How to Install
