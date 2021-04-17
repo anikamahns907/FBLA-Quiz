@@ -12,23 +12,23 @@ The site has three components: Home, Quiz, and QAS.
 
 #### Applications and Programs
 
-- [Mongo DB](https://www.mongodb.com/2)
+- [Mongo DB](https://www.mongodb.com/2) - used to hold cluster containing database that contains the fifty collections
 
-- React.JS (https://reactjs.org/)
+- [React.JS](https://reactjs.org/) - used to create the functionality of the quiz through states and components
 
-- AWS Lambda (https://aws.amazon.com/lambda/)
+- [AWS Lambda](https://aws.amazon.com/lambda/) - used as backend service that creates connection to Mongo DB for collections
 
-- Postman (https://www.postman.com/)
+- [Postman](https://www.postman.com/) - used to test out HTTP (GET and POST) requests
 
-- Amazon API Gateway (https://aws.amazon.com/api-gateway/)
+- [Amazon API Gateway](https://aws.amazon.com/api-gateway/) - used to support HTTP methods and call AWS Lambda
 
-- Virtual Studio Code (https://code.visualstudio.com/)
+- [Virtual Studio Code](https://code.visualstudio.com/) - used to create frontend
 
-- Windows Paint (https://support.microsoft.com/en-us/windows/get-microsoft-paint-a6b9578c-ed1c-5b09-0699-4ed8115f9aa9)
+- [Windows Paint](https://support.microsoft.com/en-us/windows/get-microsoft-paint-a6b9578c-ed1c-5b09-0699-4ed8115f9aa9) - used to design website and tab icon
 
-- Prettier
+- [Prettier.io](https://prettier.io/) - used to format code in VS code
 
-- Node.js
+- [Node.js](https://nodejs.org/en/) - used to code backend
 
 #### Identifiers used for variables, constants, arrays, objects, etc. 
 - HTML, JavaScript, CSS (languages) are **case sensitive**.
