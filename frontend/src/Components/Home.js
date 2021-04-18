@@ -68,13 +68,15 @@ class Home extends React.Component {
           <p className="intro">Welcome to...</p>
           <br></br>
           <h1 className="frontTitle">FBLA QUIZ</h1>
-          <br></br>
+          
           <hr></hr>
+          
           <p>
             Click 'Quiz' on the top menu bar to begin a five question quiz. For
             resources to support your FBLA study journey, check out FBLA's →
             <a href="https://www.fbla-pbl.org/"> home page. ← </a>
           </p>
+          <br></br>
           <br />
           <br />
           <iframe

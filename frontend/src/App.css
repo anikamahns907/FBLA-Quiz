@@ -80,8 +80,8 @@ a {
 .hover:hover {
   opacity: 0.7;
 }
-.sideBar {
-  height: 50px;
+.topBar {
+  height: 40px;
   width: 100%;
   z-index: 100;
   position: fixed;
@@ -157,10 +157,10 @@ a {
 
 .video {
   position: center;
-  border-color: rgb(165, 12, 12);
-  border-width: 30px;
-  height: 400px;
-  width: 700px;
+  margin-top: 50px;
+  box-shadow: 0px 0px 30px 30px rgba(107, 8, 8);
+  height: 220px;
+  width: 400px;
   left: 300px;
   margin: 0;
 }
@@ -182,28 +182,24 @@ a {
 }
 
 .frontTitle {
-  font-size: 600px;
+  font-size: 90px;
   margin: 0 auto;
   text-align: center;
   font-family: "Raleway", sans-serif;
-  font-size: 100px;
   font-style: oblique;
   color: white;
 }
 
-.margin50 {
-  margin: 0 auto;
-  text-align: center;
-}
+
 
 .intro {
   text-align: center;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
   margin-left: 100px;
   margin-right: 100px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 30px;
+  font-size: 15px;
   color: white;
 }
 

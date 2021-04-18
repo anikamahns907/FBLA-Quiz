@@ -813,14 +813,3 @@ class Quiz extends React.Component {
 }
 
 export default Quiz;
-//---typeOfQuestion= '1'
-//tfquestion: blah blah blah?
-
-//---typeOfQuestion= '2'
-//question: blah blah blah?
-//c1: joe
-//c2: joe
-//c3: jim
-//c3: jay
-
-//NOTE: how will your component look BEFORE a succesful get request ??? hmmmmmmmmmmmmmmmmm

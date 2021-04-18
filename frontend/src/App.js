@@ -14,7 +14,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <div className="sideBar">
+          <div className="topBar">
             <div className="buttonHolder">
               <div className="sideBarButtons hover">
                 <Link to="/">Home</Link>
