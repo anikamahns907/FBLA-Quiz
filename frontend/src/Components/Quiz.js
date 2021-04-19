@@ -631,18 +631,6 @@ class Quiz extends React.Component {
                 Question type: {this.state.questions[4].type}
               </i>
             </div>
-            {/* <div className="timerAndScore">
-            <h1 id="score"></h1>
-             <div>
-              <h1>
-                {moment()
-                  .hour(0)
-                  .minute(0)
-                  .second(this.state.time)
-                  .format("HH : mm : ss")}
-              </h1>
-            </div> 
-          </div> */}
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Quiz from "./Components/Quiz";
 import Home from "./Components/Home";
-import QAS from "./Components/QAS";
+import QAS from "./Components/Qas";
 
 class App extends React.Component {
   // constructor(props) {

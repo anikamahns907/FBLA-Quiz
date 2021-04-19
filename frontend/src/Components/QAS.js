@@ -1,12 +1,11 @@
 import React from "react";
 
 class QAS extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  
 
   render() {
     return (
+      //questions and answers
       <div className="questions">
         <h1>Frequently Asked Questions</h1>
         <br></br>
