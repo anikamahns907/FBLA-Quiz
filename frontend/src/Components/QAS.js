@@ -1,6 +1,6 @@
 import React from "react";
 
-class QAS extends React.Component {
+class Qas extends React.Component {
   
 
   render() {
@@ -54,4 +54,4 @@ class QAS extends React.Component {
   }
 }
 
-export default QAS;
+export default Qas;
