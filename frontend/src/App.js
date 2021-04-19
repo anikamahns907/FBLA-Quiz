@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Quiz from "./Components/Quiz";
 import Home from "./Components/Home";
-import QAS from "./Components/Qas";
+import Qas from "./Components/Qas";
 
 class App extends React.Component {
   // constructor(props) {
@@ -33,7 +33,7 @@ class App extends React.Component {
               <Quiz />
             </Route>
             <Route path="/qas">
-              <QAS />
+              <Qas />
             </Route>
             <Route path="/">
               <Home />
