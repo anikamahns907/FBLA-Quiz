@@ -29,7 +29,7 @@ The site has three components: Home, Quiz, and QAS.
 - [Prettier.io](https://prettier.io/) - used to format code in VS code
 
 - [Node.js](https://nodejs.org/en/) - used to code backend
-- [Netlify](https://www.netlify.com/?utm_source=google&utm_medium=search&utm_campaign=12755510784&adgroup=118788138897&utm_term=netlify&utm_content=kwd-371509120223&creative=514583565825&device=c&matchtype=e&location=9062329&gclid=Cj0KCQjw1PSDBhDbARIsAPeTqrdiuAG0O3BdY0ZYb6Mnniaey1v4oElAJ2wa9YRpeT2G78pxLHFZjg8aAn07EALw_wcB)
+- [Netlify](https://www.netlify.com/?utm_source=google&utm_medium=search&utm_campaign=12755510784&adgroup=118788138897&utm_term=netlify&utm_content=kwd-371509120223&creative=514583565825&device=c&matchtype=e&location=9062329&gclid=Cj0KCQjw1PSDBhDbARIsAPeTqrdiuAG0O3BdY0ZYb6Mnniaey1v4oElAJ2wa9YRpeT2G78pxLHFZjg8aAn07EALw_wcB) - used for hosting site
 
 ###  NPM Packages Installed
 Npm packages advanced the designing process. Npm packages for react and API Gateway were also installed.
